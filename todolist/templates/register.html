@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Register</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      max-width: 400px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+      border-color: #4facfe;
+      box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3899f2;
+    }
+
+    .toggle {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .toggle a {
+      color: #4facfe;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toggle a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="form-container">
+    <h2 id="form-title">Login</h2>
+
+    <form id="auth-form" method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="toggle">
+      <span>Don't have an account? <a href="#" onclick="toggleForm(event)">Register</a></span>
+    </div>
+  </div>
+
+  <script>
+    function toggleForm(e) {
+      e.preventDefault();
+      const formContainer = document.getElementById('form-container');
+      const form = document.getElementById('auth-form');
+      const title = document.getElementById('form-title');
+      const toggle = document.querySelector('.toggle span');
+
+      const isLogin = form.action.includes('{% url "login" %}');
+
+      form.action = isLogin ? "{% url 'register' %}" : "{% url 'login' %}";
+      form.innerHTML = isLogin
+        ? `
+        {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password1" placeholder="Password" required />
+          <input type="password" name="password2" placeholder="Confirm Password" required />
+          <button type="submit">Register</button>
+        `
+        : `
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        `;
+
+      title.textContent = isLogin ? "Register" : "Login";
+      toggle.innerHTML = isLogin
+        ? `Already have an account? <a href="#" onclick="toggleForm(event)">Login</a>`
+        : `Don't have an account? <a href="#" onclick="toggleForm(event)">Register</a>`;
+    }
+  </script>
+
+</body>
+</html>
