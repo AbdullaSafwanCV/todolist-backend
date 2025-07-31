@@ -16,6 +16,6 @@ class AddNoteViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # Return only notes created by the logged-in user
-        return AddNote.objects.all()
+        return AddNote.objects.all()P
     
     
