@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)b53m0uoq%_&3#d%x(5pc+-)1$0kcq=b9imm)0gg20iad@m=1v
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'AbdullaSafwan.pythonanywhere.com',
+    'abdullasafwan.pythonanywhere.com',
     'todolist-backend-w1jq.onrender.com',
     'localhost',
     '127.0.0.1'
